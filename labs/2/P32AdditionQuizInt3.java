@@ -16,6 +16,8 @@ public class P32AdditionQuizInt3 {
 		int answer = input.nextInt();
 		
 		System.out.println(number1 + " + " + number2 + " + " + number3 + " is " + (number1 + number2 + number3 == answer));
+		// JA: The right statement should be:
+		// System.out.println(number1 + " + " + number2 + " + " + number3 + " = " + answer + " is " + (number1 + number2 + number3 == answer));
 		
 		
 		

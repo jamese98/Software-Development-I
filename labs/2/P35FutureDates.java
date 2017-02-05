@@ -26,7 +26,7 @@ public class P35FutureDates {
 			case 3: dayString = "Wednesday";break;
 			case 4: dayString = "Thursday";break;
 			case 5: dayString = "Friday";break;
-			case 6: dayString = "Saturday";
+			case 6: dayString = "Saturday"; // JA: You also need a "break" statement here, becasue when it is Saturday it will also print the invalid message
 			default: System.out.println("Invalid entry. Please enter an integer that matches a day eg. Sunday = 0");
 		}
 		
@@ -40,7 +40,7 @@ public class P35FutureDates {
 		case 3: futureDayString = "Wednesday";break;
 		case 4: futureDayString = "Thursday";break;
 		case 5: futureDayString = "Friday";break;
-		case 6: futureDayString = "Saturday";
+		case 6: futureDayString = "Saturday"; // JA: You also need a "break" statement here, becasue when it is Saturday it will also print the invalid message
 		default: System.out.println("Invalid entry. Please enter an integer");
 		}
 		
