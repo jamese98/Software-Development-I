@@ -45,7 +45,7 @@ public class P51CountPosNegIntegers {
 		System.out.println("The number of positives is: " + numPos);
 		System.out.println("The number of negatives is: " + numNeg);
 		System.out.println("The total is: " + sum);
-		System.out.println("The average is: " + (sum / (numPos + numNeg)));
+		System.out.println("The average is: " + (sum / (numPos + numNeg))); // JA: This division is integer, you need to force it to do it as a double
 
 	}
 

@@ -2,6 +2,7 @@ package lab3;
 
 public class P55KiloLbConversion {
 
+	// JA: The idea was to create the whole table with a loop.
 	public static void main(String[] args) {
 		// Display table headings
 		System.out.println("Kilograms       Pounds  |   Pounds      Kilograms");
