@@ -12,7 +12,7 @@ public class P616DaysInYear {
 		int total = 0; // initialize variable to store number of variables
 		
 		// Get the total days from 1900 to 1/1/year
-		for (int i = 1900; i < year; i++) {
+		for (int i = 1900; i < year; i++) { // JA: The idea was to print each year with the number of days from 2000 to 2020
 			
 			// Check if year is leap year
 			if (isLeapYear(year))

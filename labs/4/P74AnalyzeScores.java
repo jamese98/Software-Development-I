@@ -3,7 +3,8 @@ package lab4;
 public class P74AnalyzeScores {
 
 	public static void main(String[] args) {
-		int[] myArray = {1,2,3,4,5,6,7,8,9,10,-1}; // initialize array
+		// JA: You had to read the values from the user
+		int[] myArray = {1,2,3,4,5,6,7,8,9,10,-1}; // initialize array 
 		int sum = 0; // initialize variable to store sum of array
 		int average = 0; // initialize variable to store average
 		int belowAverage = 0; // initialize belowAverage counter
@@ -15,7 +16,7 @@ public class P74AnalyzeScores {
 		}
 		
 		// Get average of integers in array
-		average = sum / (myArray.length);
+		average = sum / (myArray.length); // JA: This has to be a non-integer calculation
 		
 		// Check if each integer in the array is above or below average
 		for(int i = 0; i < (myArray.length - 1) && i >= 0; i++) {
