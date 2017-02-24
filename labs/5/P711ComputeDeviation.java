@@ -30,7 +30,7 @@ public class P711ComputeDeviation {
 		
 		// Subtract mean of each number and square result
 		for(int i = 0; i < x.length; i++) {
-			deviationArray[i] = (x[i] - mean(x) * (x[i] - mean(x)));	
+			deviationArray[i] = (x[i] - mean(x) * (x[i] - mean(x))); // JA: You need parenthesis around the first term (x[i] - mean(x))	
 		}
 		
 		// Find sum of deviationArray

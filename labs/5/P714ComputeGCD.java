@@ -48,7 +48,7 @@ public class P714ComputeGCD {
 		// Cycle through all numbers
 		for(int i: numbers) {
 			// Check if i is the smallest number
-			if (i < min) {
+			if (i < min) { // JA: This has to include min (<=)
 				min = i; // i is the smallest number, assign to min
 			}
 		}

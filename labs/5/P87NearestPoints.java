@@ -31,7 +31,7 @@ public class P87NearestPoints {
 		}
 		// Display results
 		System.out.println("The closest two points are " + "(" + points[p1][0] + ", " + points[p1][1] + 
-				           ") and (" + points[p2][0] + ", " + points[p2][1] + ")");
+				           ") and (" + points[p2][0] + ", " + points[p2][1] + ")"); // JA: Forgot to print the z value
 	}
 	
 	/** Method to calculate distance between two points */
