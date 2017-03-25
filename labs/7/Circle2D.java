@@ -53,8 +53,9 @@ public class Circle2D {
 	/** Method: Check if specified circle is in circle */
 	public boolean contains(Circle2D circle) {
 		return Math.sqrt(Math.pow(circle.getX() - x, 2) + 
-				Math.pow(circle.getY() - y, 2))
-				<= Math.abs(radius - circle.getRadius());
+				Math.pow(circle.getY() - y, 2)) + circle.getRadius()
+				<= radius;
+//				<= Math.abs(radius - circle.getRadius());
 	}
 	
 	/** Method: Check if specified circle overlaps another circle */
