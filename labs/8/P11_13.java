@@ -29,6 +29,7 @@ public class P11_13 {
 
 	}
 	/** Method: Remove duplicate integers from an ArrayList */
+	// JA: A better approach is to replicate the array without the duplicates
 	public static void removeDuplicate(ArrayList<Integer> list) {
 		for (int i = 0; i < list.size() - 1; i++) {
 			for(int j = i + 1; j < list.size(); j++) {
