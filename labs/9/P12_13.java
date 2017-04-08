@@ -40,7 +40,9 @@ public class P12_13 {
 				// Create input file
 				Scanner input = new Scanner(file);
 		) {
-			while(input.hasNext()) {
+			while(input.hasNext()) { 
+				// JA: This is an infinite loop
+				input.next(); // JA
 				words++;
 			}
 		}
