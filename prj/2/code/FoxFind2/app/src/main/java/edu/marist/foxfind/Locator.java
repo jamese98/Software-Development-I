@@ -26,8 +26,8 @@ public class Locator extends MapsActivity {
 
     }
 
-    private double[] parseConfig(File file) {
+   // private double[] parseConfig(File file) {
 
-    }
+   // }
 
 }

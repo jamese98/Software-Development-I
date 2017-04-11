@@ -39,8 +39,10 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 /**
- * Modified demo courtesy of Google
- * Source: https://github.com/googlemaps/android-samples/blob/master/ApiDemos/app/src/main/java/com/example/mapdemo/MyLocationDemoActivity.java
+ * This demo shows how GMS Location can be used to check for changes to the users location.  The
+ * "My Location" button uses GMS Location to set the blue dot representing the users location.
+ * Permission for {@link android.Manifest.permission#ACCESS_FINE_LOCATION} is requested at run
+ * time. If the permission has not been granted, the Activity is finished with an error message.
  */
 public class MapsActivity extends AppCompatActivity
         implements

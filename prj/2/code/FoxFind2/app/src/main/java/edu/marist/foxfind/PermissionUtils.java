@@ -37,7 +37,7 @@ public abstract class PermissionUtils {
      * be shown to the user, displays a dialog that triggers the request.
      */
     public static void requestPermission(AppCompatActivity activity, int requestId,
-                                         String permission, boolean finishActivity) {
+            String permission, boolean finishActivity) {
         if (ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)) {
             // Display a dialog with rationale.
             PermissionUtils.RationaleDialog.newInstance(requestId, finishActivity)
@@ -56,7 +56,7 @@ public abstract class PermissionUtils {
      * @see android.support.v4.app.ActivityCompat.OnRequestPermissionsResultCallback
      */
     public static boolean isPermissionGranted(String[] grantPermissions, int[] grantResults,
-                                              String permission) {
+            String permission) {
         for (int i = 0; i < grantPermissions.length; i++) {
             if (permission.equals(grantPermissions[i])) {
                 return grantResults[i] == PackageManager.PERMISSION_GRANTED;
@@ -86,17 +86,17 @@ public abstract class PermissionUtils {
             dialog.setArguments(arguments);
             return dialog;
         }
-        /*
-                @Override
-                public Dialog onCreateDialog(Bundle savedInstanceState) {
-                    mFinishActivity = getArguments().getBoolean(ARGUMENT_FINISH_ACTIVITY);
+/*
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            mFinishActivity = getArguments().getBoolean(ARGUMENT_FINISH_ACTIVITY);
 
-                    return new AlertDialog.Builder(getActivity())
-                            .setMessage(R.string.location_permission_denied)
-                            .setPositiveButton(android.R.string.ok, null)
-                            .create();
-                }
-        */
+            return new AlertDialog.Builder(getActivity())
+                    .setMessage(R.string.location_permission_denied)
+                    .setPositiveButton(android.R.string.ok, null)
+                    .create();
+        }
+*/
         @Override
         public void onDismiss(DialogInterface dialog) {
             super.onDismiss(dialog);
