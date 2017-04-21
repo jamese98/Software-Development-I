@@ -67,14 +67,10 @@ public class MapsActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        //getSupportActionBar().setDisplayShowTitleEnabled(false);
-
 
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-
 
     }
 
@@ -109,20 +105,21 @@ public class MapsActivity extends AppCompatActivity
     /** Override default Location Button behavior to increase zoom */
     @Override
     public boolean onMyLocationButtonClick() {
+        if (mMap.getMyLocation() != null) {
+            LatLng coords = new LatLng(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude());
+            //Location location = mMap.getMyLocation();
+            //LatLng coords1 = new LatLng(location.getLatitude(), location.getLongitude());
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(coords, 18.5f));
 
-        LatLng coords = new LatLng(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude());
-        //Location location = mMap.getMyLocation();
-        //LatLng coords1 = new LatLng(location.getLatitude(), location.getLongitude());
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(coords, 18.5f));
-
-        LatLng currentView = mMap.getCameraPosition().target;
-        String currentViewString = currentView.toString();
-        String stringsCoords = coords.toString();
-        float zoom = mMap.getCameraPosition().zoom;
-        String zoomString = String.valueOf(zoom);
-        Toast.makeText(this, currentViewString, Toast.LENGTH_SHORT).show();
-        // Return false so that we don't consume the event and the default behavior still occurs
-        // (the camera animates to the user's current position).
+            LatLng currentView = mMap.getCameraPosition().target;
+            String currentViewString = currentView.toString();
+            String stringsCoords = coords.toString();
+            float zoom = mMap.getCameraPosition().zoom;
+            String zoomString = String.valueOf(zoom);
+            Toast.makeText(this, currentViewString, Toast.LENGTH_SHORT).show();
+            // Return false so that we don't consume the event and the default behavior still occurs
+            // (the camera animates to the user's current position).
+        }
         return true;
     }
 
