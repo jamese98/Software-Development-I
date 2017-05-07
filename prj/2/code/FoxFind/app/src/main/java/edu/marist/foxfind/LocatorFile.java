@@ -19,6 +19,7 @@ import java.io.InputStream;
 import java.lang.NullPointerException;
 import java.util.Arrays;
 import java.util.InputMismatchException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.io.File;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -40,45 +41,79 @@ public class LocatorFile {
 
         try {
 
-            while (!foundLocation || input.hasNextLine()) { // runs while location is not found or file still has data to be read
-                // Put four area coordinates into searchCoords array
+            while (!foundLocation && input.hasNext()) { // runs while location is not found and file still has data to be read
+
+                // Read four area coordinates from file into searchCoords array
                 for (int i = 0; i < 4; i++) {
-                    double latitude = input.nextDouble();
-                    double longitude = input.nextDouble();
+                    double latitude = 0;
+                    double longitude = 0;
+
+                    // Search for latitude
+                    boolean latIsDouble = false;
+                    while(!latIsDouble && input.hasNext()) {
+                        if(input.hasNextDouble()) {
+                            latitude = input.nextDouble();
+                            latIsDouble = true;
+                        } else {
+                            latIsDouble = false;
+                            input.next();
+                        }
+                    }
+
+                    // Search for longitude
+                    boolean longIsDouble = false;
+                    while(!longIsDouble && input.hasNext()) {
+                        if(input.hasNextDouble()) {
+                            longitude = input.nextDouble();
+                            longIsDouble = true;
+                        } else {
+                            longIsDouble = false;
+                            input.next();
+                        }
+                    }
+
+                    // Combine into LatLng object and add to array
                     LatLng tempCoord = new LatLng(latitude, longitude);
                     searchCoords[i] = tempCoord;
                 }
 
-                // Check if current coordinates are within bounds of area
-                if (searchCoords[1].latitude >= coords.latitude &&
-                        searchCoords[1].longitude <= coords.longitude &&
-                        searchCoords[2].latitude >= coords.latitude &&
+                // Check if current coordinates are within bounds of searchCoords[] area
+                if (searchCoords[0].latitude >= coords.latitude &&
+                        searchCoords[0].longitude <= coords.longitude &&
+                        searchCoords[1].latitude >= coords.latitude &&
+                        searchCoords[1].longitude >= coords.longitude &&
+                        searchCoords[2].latitude <= coords.latitude &&
                         searchCoords[2].longitude >= coords.longitude &&
                         searchCoords[3].latitude <= coords.latitude &&
-                        searchCoords[3].longitude <= coords.longitude &&
-                        searchCoords[4].latitude <= coords.latitude &&
-                        searchCoords[4].longitude >= coords.longitude) {
+                        searchCoords[3].longitude <= coords.longitude) {
                     foundLocation = true; // coordinates are within bounds of area
                 } else {
                     // Coordinates are not within bounds of area
                     foundLocation = false;
-                    Arrays.fill(searchCoords, null);
+                    Arrays.fill(searchCoords, null); // empty searchCoords[]
                 }
             }
 
-            // Return NO LOCATION if location is not found
-            if (!foundLocation) {
-                returnString = "NO LOCATION";
+
+            if (foundLocation) {
+                // Location foud, return location name as string
+                String regex = "([\"'])(?:(?=(\\\\?))\\2.)*?\\1"; // regular expression
+                returnString = input.findInLine(regex); // search current line for string matching regex
+                returnString = returnString.replace("\"", ""); // remove " characters from string
             } else {
-                // Return location name as string
-                returnString = input.next(("\"([^\"]*)\""));
+                // Return NO LOCATION if location is not found
+                returnString = "NO LOCATION";
             }
 
-       // } catch (NullPointerException e) {
+            // Catch errors if necessary
         } catch (InputMismatchException e) {
             e.printStackTrace();
         }
+        catch (NoSuchElementException e) {
+            e.printStackTrace();
+        }
 
+        // Return result
         return returnString;
 
         }

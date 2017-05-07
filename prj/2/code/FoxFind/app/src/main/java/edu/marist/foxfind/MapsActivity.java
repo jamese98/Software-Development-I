@@ -30,6 +30,7 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -74,6 +75,8 @@ public class MapsActivity extends AppCompatActivity
 
     protected GoogleMap mMap;
 
+    Handler handler = new Handler();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +86,26 @@ public class MapsActivity extends AppCompatActivity
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        // Locator Loop
+        Runnable r = new Runnable() {
+            public void run() {
+                try {
+                    if(mMap.getMyLocation() != null) {
+                        LatLng coords = new LatLng(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude());
+                        InputStream input = (getAssets().open("locationConfig.txt"));
+                        TextView textView = (TextView) findViewById(R.id.locationText);
+                        textView.setText(LocatorFile.searchConfig(coords, input));
+                    }
+
+                    //textView.setText(Locator.searchConfig(coords));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        handler.postDelayed(r, 5000);
 
     }
 
@@ -96,6 +119,7 @@ public class MapsActivity extends AppCompatActivity
         // Set default map view on startup
         LatLng defaultView = new LatLng(41.72276995483161, -73.93151979893445);
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(defaultView, 15.12f));
+
 
     }
 
@@ -141,15 +165,6 @@ public class MapsActivity extends AppCompatActivity
             // (the camera animates to the user's current position).
             */
 
-            try {
-                InputStream input = (getAssets().open("locationConfig.txt"));
-                TextView textView = (TextView) findViewById(R.id.locationText);
-                //textView.setText(Locator.searchConfig(coords, input));
-                textView.setText(Locator.searchConfig(coords));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
 
         }
         return true;
@@ -190,7 +205,5 @@ public class MapsActivity extends AppCompatActivity
         PermissionUtils.PermissionDeniedDialog
                 .newInstance(true).show(getSupportFragmentManager(), "dialog");
     }
-
-
 
 }
