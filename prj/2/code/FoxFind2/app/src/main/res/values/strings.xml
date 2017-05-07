@@ -1,7 +1,0 @@
-<resources>
-    <string name="app_name">FoxFind</string>
-    <string name="title_activity_maps">Map</string>
-    <string name="permission_required_toast">Location Permission Required</string>
-    <string name="permission_rationale_location">Location Services are necessary for this app to be used</string>
-
-</resources>
