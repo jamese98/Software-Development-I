@@ -81,7 +81,7 @@ public class MapsActivity extends AppCompatActivity
                         LatLng coords = new LatLng(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude());
                         InputStream input = (getAssets().open("locationConfig.txt"));
                         TextView textView = (TextView) findViewById(R.id.locationText);
-                        textView.setText(LocatorFile.searchConfig(coords, input));
+                        textView.setText(Locator.searchConfig(coords, input));
                     }
 
                 } catch (IOException e) {

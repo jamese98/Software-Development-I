@@ -1,89 +1,105 @@
 package edu.marist.foxfind;
 
-import android.app.Fragment;
-import android.content.Context;
-import android.content.res.AssetManager;
-import android.location.Location;
-import android.os.Bundle;
-import android.renderscript.ScriptGroup;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-
-import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
-
-import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.lang.NullPointerException;
 import java.util.Arrays;
 import java.util.InputMismatchException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
-import java.io.File;
-import java.util.regex.Pattern;
-
-import com.google.android.gms.maps.OnMapReadyCallback;
 
 
-public class Locator {
+class Locator {
 
 
     /** Parse config file and search for current coordinates */
-    public static String searchConfig (LatLng coords)  {
-        String returnString = null;
-        boolean foundLocation = false;
+    static String searchConfig(LatLng coords, InputStream inputStream)  {
+        // Initialize scanner
+        Scanner input = new Scanner(inputStream);
+        String returnString = "";
 
-        // COORDINATE BOUNDS FOR EACH LOCATION
-        //Marian
-        if(41.721246 >= coords.latitude &&
-                -73.934547 <= coords.longitude &&
-                41.721214 >= coords.latitude &&
-                -73.934011 >= coords.longitude &&
-                41.720930 <= coords.latitude &&
-                -73.934042 <= coords.longitude &&
-                41.720958 <= coords.latitude &&
-                -73.934581 >= coords.longitude) {
-            foundLocation = true;
-            returnString = "Marian Hall";
-        }
+        // Initialize search variables
+        LatLng[] searchCoords = new LatLng[4]; // Initialize array to store location coordinates
+        boolean foundLocation = false; // Initialize variable to track if location has been found
 
-        //Student Center
-        if(41.721032 >= coords.latitude &&
-                -73.935890 <= coords.longitude &&
-                41.721037 >= coords.latitude &&
-                -73.935251 >= coords.longitude &&
-                41.720571 <= coords.latitude &&
-                -73.935900 <= coords.longitude &&
-                41.720554 <= coords.latitude &&
-                -73.935500 >= coords.longitude) {
-            foundLocation = true;
-            returnString = "Student Center";
-        }
 
-        // Hancock
-        if(41.723201 >= coords.latitude &&
-                -73.935049 <= coords.longitude &&
-                41.723226 >= coords.latitude &&
-                -73.934164 >= coords.longitude &&
-                41.722462 <= coords.latitude &&
-                -73.934704 <= coords.longitude &&
-                41.722419 <= coords.latitude &&
-                -73.934367 >= coords.longitude) {
-            foundLocation = true;
-            returnString = "Hancock";
-        }
+        try {
 
-            // Return NO LOCATION if location is not found
-            if (!foundLocation) {
+            while (!foundLocation && input.hasNext()) { // runs while location is not found and file still has data to be read
+
+                // Read four area coordinates from file into searchCoords array
+                for (int i = 0; i < 4; i++) {
+                    double latitude = 0;
+                    double longitude = 0;
+
+                    // Search for latitude
+                    boolean latIsDouble = false;
+                    while(!latIsDouble && input.hasNext()) {
+                        if(input.hasNextDouble()) {
+                            latitude = input.nextDouble();
+                            latIsDouble = true;
+                        } else {
+                            latIsDouble = false;
+                            input.next();
+                        }
+                    }
+
+                    // Search for longitude
+                    boolean longIsDouble = false;
+                    while(!longIsDouble && input.hasNext()) {
+                        if(input.hasNextDouble()) {
+                            longitude = input.nextDouble();
+                            longIsDouble = true;
+                        } else {
+                            longIsDouble = false;
+                            input.next();
+                        }
+                    }
+
+                    // Combine into LatLng object and add to array
+                    LatLng tempCoord = new LatLng(latitude, longitude);
+                    searchCoords[i] = tempCoord;
+                }
+
+                // Check if current coordinates are within bounds of searchCoords[] area
+                if (searchCoords[0].latitude >= coords.latitude &&
+                        searchCoords[0].longitude <= coords.longitude &&
+                        searchCoords[1].latitude >= coords.latitude &&
+                        searchCoords[1].longitude >= coords.longitude &&
+                        searchCoords[2].latitude <= coords.latitude &&
+                        searchCoords[2].longitude >= coords.longitude &&
+                        searchCoords[3].latitude <= coords.latitude &&
+                        searchCoords[3].longitude <= coords.longitude) {
+                    foundLocation = true; // coordinates are within bounds of area
+                } else {
+                    // Coordinates are not within bounds of area
+                    foundLocation = false;
+                    Arrays.fill(searchCoords, null); // empty searchCoords[]
+                }
+            }
+
+
+            if (foundLocation) {
+                // Location found, return location name as string
+                String regex = "([\"'])(?:(?=(\\\\?))\\2.)*?\\1"; // regular expression
+                returnString = input.findInLine(regex); // search current line for string matching regex
+                returnString = returnString.replace("\"", ""); // remove " characters from string
+            } else {
+                // Return NO LOCATION if location is not found
                 returnString = "NO LOCATION";
             }
 
+            // Catch errors if necessary
+        } catch (InputMismatchException e) {
+            e.printStackTrace();
+        }
+        catch (NoSuchElementException e) {
+            e.printStackTrace();
+        }
+
+        // Return result
         return returnString;
 
         }
 
 
 }
-
-
