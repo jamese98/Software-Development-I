@@ -22,38 +22,24 @@ import com.google.android.gms.maps.GoogleMap.OnMyLocationButtonClickListener;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-
-import android.content.res.AssetManager;
-import android.location.Location;
-
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Window;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.common.api.GoogleApiClient;
-
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Scanner;
 
 
 /**
  * Modified demo courtesy of Google
  * Source: https://github.com/googlemaps/android-samples/blob/master/ApiDemos/app/src/main/java/com/example/mapdemo/MyLocationDemoActivity.java
  */
+
 public class MapsActivity extends AppCompatActivity
         implements
         OnMyLocationButtonClickListener,
@@ -73,9 +59,9 @@ public class MapsActivity extends AppCompatActivity
      */
     private boolean mPermissionDenied = false;
 
-    protected GoogleMap mMap;
+    protected GoogleMap mMap; // initialize map object
 
-    Handler handler = new Handler();
+    Handler handler = new Handler(); // initialize locator handler
 
 
     @Override
@@ -98,7 +84,6 @@ public class MapsActivity extends AppCompatActivity
                         textView.setText(LocatorFile.searchConfig(coords, input));
                     }
 
-                    //textView.setText(Locator.searchConfig(coords));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -120,7 +105,6 @@ public class MapsActivity extends AppCompatActivity
         LatLng defaultView = new LatLng(41.72276995483161, -73.93151979893445);
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(defaultView, 15.12f));
 
-
     }
 
     /**
@@ -137,9 +121,9 @@ public class MapsActivity extends AppCompatActivity
             mMap.setMyLocationEnabled(true);
         }
 
+        // Set waiting text
         TextView textView = (TextView) findViewById(R.id.locationText);
         textView.setText(R.string.textview_waiting);
-
 
     }
 
@@ -152,19 +136,6 @@ public class MapsActivity extends AppCompatActivity
             //Location location = mMap.getMyLocation();
             //LatLng coords1 = new LatLng(location.getLatitude(), location.getLongitude());
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(coords, 18.5f));
-
-
-            /*
-            *LatLng currentView = mMap.getCameraPosition().target;
-            *String currentViewString = currentView.toString();
-            *String stringsCoords = coords.toString();
-            *float zoom = mMap.getCameraPosition().zoom;
-            *String zoomString = String.valueOf(zoom);
-            *Toast.makeText(this, currentViewString, Toast.LENGTH_SHORT).show();
-            // Return false so that we don't consume the event and the default behavior still occurs
-            // (the camera animates to the user's current position).
-            */
-
 
         }
         return true;

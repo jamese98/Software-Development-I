@@ -1,35 +1,18 @@
 package edu.marist.foxfind;
 
-import android.app.Fragment;
-import android.content.Context;
-import android.content.res.AssetManager;
-import android.location.Location;
-import android.os.Bundle;
-import android.renderscript.ScriptGroup;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-
-import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
-
-import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.lang.NullPointerException;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
-import java.io.File;
-import com.google.android.gms.maps.OnMapReadyCallback;
 
 
-public class LocatorFile {
+class LocatorFile {
 
 
     /** Parse config file and search for current coordinates */
-    public static String searchConfig (LatLng coords, InputStream inputStream)  {
+    static String searchConfig(LatLng coords, InputStream inputStream)  {
         // Initialize scanner
         Scanner input = new Scanner(inputStream);
         String returnString = "";
@@ -96,7 +79,7 @@ public class LocatorFile {
 
 
             if (foundLocation) {
-                // Location foud, return location name as string
+                // Location found, return location name as string
                 String regex = "([\"'])(?:(?=(\\\\?))\\2.)*?\\1"; // regular expression
                 returnString = input.findInLine(regex); // search current line for string matching regex
                 returnString = returnString.replace("\"", ""); // remove " characters from string
@@ -120,5 +103,3 @@ public class LocatorFile {
 
 
 }
-
-
